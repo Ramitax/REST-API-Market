@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/category")
 public class CategoryController {
 
