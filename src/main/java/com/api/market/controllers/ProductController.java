@@ -32,6 +32,11 @@ public class ProductController {
         return productService.getByIdProduct(idProduct);
     }
 
+    @GetMapping("/name/{name}")
+    public Optional<ProductModel> getByName(@PathVariable("name") String name){
+        return productService.getByName(name);
+    }
+
     @PutMapping("/{idProduct}/stock")
     public boolean updateStock(@RequestBody ProductModel product, @PathVariable(name = "idProduct") Integer idProduct){
         try {

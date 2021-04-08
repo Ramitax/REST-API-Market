@@ -26,6 +26,10 @@ public class ProductService {
         return productRepository.getByIdCategory(idCategory);
     }
 
+    public Optional<ProductModel> getByName(String name){
+        return  productRepository.getByName(name);
+    }
+
     public ProductModel save (ProductModel product){
         return productRepository.save(product);
     }

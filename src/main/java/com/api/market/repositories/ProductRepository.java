@@ -13,4 +13,6 @@ public interface ProductRepository extends JpaRepository<ProductModel, Integer> 
     public abstract Optional<ProductModel> getByIdProduct(Integer idProduct);
 
     public abstract Optional<ArrayList<ProductModel>> getByIdCategory(Integer idCategory);
+
+    public abstract Optional<ProductModel> getByName(String name);
 }
