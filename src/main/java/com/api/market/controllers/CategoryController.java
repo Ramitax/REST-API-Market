@@ -35,10 +35,11 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<CategoryModel> save(@RequestBody CategoryModel category){
-        if (categoryService.save(category) != null){
-            return new ResponseEntity<>(categoryService.save(category), HttpStatus.OK);
+        CategoryModel response = categoryService.save(category);
+        if (response != null){
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else{
-            return new ResponseEntity<>(categoryService.save(category), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

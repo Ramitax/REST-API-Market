@@ -29,8 +29,9 @@ public class ProductController {
     @GetMapping("/")
     @ResponseBody
     public ResponseEntity<Optional<ArrayList<ProductModel>>> getByIdCategory(@RequestParam Integer idCategory){
-        if (productService.getByIdCategory(idCategory).isPresent()){
-            return new ResponseEntity<>(productService.getByIdCategory(idCategory), HttpStatus.OK);
+        Optional<ArrayList<ProductModel>> response = productService.getByIdCategory(idCategory);
+        if (response.isPresent()){
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -38,8 +39,9 @@ public class ProductController {
 
     @GetMapping("/{idProduct}")
     public ResponseEntity<Optional<ProductModel>> getByIdProduct(@PathVariable("idProduct") Integer idProduct){
-        if (productService.getByIdProduct(idProduct).isPresent()){
-            return new ResponseEntity<>(productService.getByIdProduct(idProduct), HttpStatus.OK);
+        Optional<ProductModel> response = productService.getByIdProduct(idProduct);
+        if (response.isPresent()){
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -47,8 +49,9 @@ public class ProductController {
 
     @GetMapping("/name/{name}")
     public ResponseEntity<ArrayList<Optional<ProductModel>>>  getByName(@PathVariable("name") String name){
-        if (!productService.getByName(name).isEmpty()){
-            return new ResponseEntity<>(productService.getByName(name), HttpStatus.OK);
+        ArrayList<Optional<ProductModel>> response = productService.getByName(name.toLowerCase());
+        if (!response.isEmpty()){
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -87,10 +90,11 @@ public class ProductController {
 
     @PostMapping()
     public ResponseEntity<ProductModel> save(@RequestBody ProductModel product){
-        if (productService.save(product) != null){
-            return new ResponseEntity<>(productService.save(product), HttpStatus.OK);
+        ProductModel response = productService.save(product);
+        if ( response != null){
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else{
-            return new ResponseEntity<>(productService.save(product), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

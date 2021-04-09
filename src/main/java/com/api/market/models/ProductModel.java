@@ -20,6 +20,10 @@ public class ProductModel {
 
     private String image;
 
+    private String description;
+
+    private String brand;
+
     @ManyToOne
     @JoinColumn(name = "idCategory",insertable = false, updatable = false)
     private CategoryModel category;
@@ -74,5 +78,21 @@ public class ProductModel {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 }
