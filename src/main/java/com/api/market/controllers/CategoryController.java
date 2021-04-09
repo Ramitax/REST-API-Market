@@ -3,6 +3,8 @@ package com.api.market.controllers;
 import com.api.market.models.CategoryModel;
 import com.api.market.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,27 +19,36 @@ public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping
-    public ArrayList<CategoryModel> get(){
-        return categoryService.getAll();
-    }
-
-    @PostMapping
-    public CategoryModel save(@RequestBody CategoryModel category){
-        return categoryService.save(category);
+    public ResponseEntity<ArrayList<CategoryModel>> get(){
+        return new ResponseEntity<>(categoryService.getAll(), HttpStatus.OK);
     }
 
     @PutMapping("/{idCategory}")
-    public boolean update(@RequestBody CategoryModel category, @PathVariable("idCategory") Integer idCategory){
+    public ResponseEntity<Boolean> update(@RequestBody CategoryModel category, @PathVariable("idCategory") Integer idCategory){
         try{
             categoryService.update(category,idCategory);
-            return true;
+            return new ResponseEntity<>(true,HttpStatus.OK);
         } catch (Exception e){
-            return false;
+            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<CategoryModel> save(@RequestBody CategoryModel category){
+        if (categoryService.save(category) != null){
+            return new ResponseEntity<>(categoryService.save(category), HttpStatus.OK);
+        } else{
+            return new ResponseEntity<>(categoryService.save(category), HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/{idCategory}")
-    public boolean delete(@PathVariable("idCategory") Integer idCategory){
-        return categoryService.delete(idCategory);
+    public ResponseEntity<Boolean> delete(@PathVariable("idCategory") Integer idCategory){
+        try{
+            categoryService.delete(idCategory);
+            return new ResponseEntity<>(true,HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        }
     }
 }
