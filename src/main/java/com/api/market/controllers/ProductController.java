@@ -3,6 +3,9 @@ package com.api.market.controllers;
 import com.api.market.models.ProductModel;
 import com.api.market.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,13 +20,13 @@ public class ProductController {
     ProductService productService;
 
     @GetMapping // Devolver nada mas  nombre y productoID
-    public ArrayList<ProductModel> getAll(){
-        return productService.getAll();
+    public Page<ProductModel> getAll(@PageableDefault(size = 10, page = 0) Pageable pageable){
+        return productService.getAll(pageable);
     }
 
     @GetMapping("/")
     @ResponseBody
-    public Optional<ArrayList<ProductModel>> getByIdCateory(@RequestParam Integer idCategory){
+    public Optional<ArrayList<ProductModel>> getByIdCategory(@RequestParam Integer idCategory){
         return productService.getByIdCategory(idCategory);
     }
 
@@ -33,7 +36,7 @@ public class ProductController {
     }
 
     @GetMapping("/name/{name}")
-    public Optional<ProductModel> getByName(@PathVariable("name") String name){
+    public ArrayList<Optional<ProductModel>>  getByName(@PathVariable("name") String name){
         return productService.getByName(name);
     }
 
