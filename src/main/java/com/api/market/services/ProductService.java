@@ -62,9 +62,13 @@ public class ProductService {
         try {
             products.forEach(product -> {
                         Optional<ProductModel> preProduct = productRepository.getByIdProduct(product.getIdProduct());
-                        Integer newStock = preProduct.get().getStock() - 1;
-                        preProduct.get().setStock(newStock);
-                        productRepository.save(preProduct.get());
+                        if (preProduct.get().getStock() > 0){
+                            Integer newStock = preProduct.get().getStock() - 1;
+                            preProduct.get().setStock(newStock);
+                            productRepository.save(preProduct.get());
+                        } else {
+                            throw new RuntimeException("Stock negative");
+                        }
                     }
             );
             return true;
