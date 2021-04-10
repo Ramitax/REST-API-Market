@@ -22,6 +22,10 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
+    public String mensaje (){
+        return "Hola";
+    }
+
     public boolean update(CategoryModel category, Integer idCategory){
         Optional<CategoryModel> preCategory = categoryRepository.findByIdCategory(idCategory);
         if (preCategory.isPresent()){
