@@ -36,37 +36,48 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public void updateStock (ProductModel product, Integer idProduct){
+    public boolean updateStock (ProductModel product, Integer idProduct){
         if (product.getStock() > 0) {
             Optional<ProductModel> preProduct = productRepository.getByIdProduct(idProduct);
             preProduct.get().setStock(product.getStock());
             productRepository.save(preProduct.get());
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public void updatePrice (ProductModel product, Integer idProduct){
+    public boolean updatePrice (ProductModel product, Integer idProduct){
         if (product.getPrice() > 0) {
             Optional<ProductModel> preProduct = productRepository.getByIdProduct(idProduct);
             preProduct.get().setPrice(product.getPrice());
             productRepository.save(preProduct.get());
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public void buyProducts(ArrayList<ProductModel> products){
-        products.forEach(product -> {
-            Optional<ProductModel> preProduct = productRepository.getByIdProduct(product.getIdProduct());
-            Integer newStock = preProduct.get().getStock() - 1;
-            preProduct.get().setStock(newStock);
-            productRepository.save(preProduct.get());
+    public boolean buyProducts(ArrayList<ProductModel> products){
+        try {
+            products.forEach(product -> {
+                        Optional<ProductModel> preProduct = productRepository.getByIdProduct(product.getIdProduct());
+                        Integer newStock = preProduct.get().getStock() - 1;
+                        preProduct.get().setStock(newStock);
+                        productRepository.save(preProduct.get());
+                    }
+            );
+            return true;
+        } catch (Exception e){
+            return false;
         }
-        );
     }
 
     public boolean delete (Integer idProduct){
-        try{
+        if (productRepository.findById(idProduct).isPresent()){
             productRepository.deleteById(idProduct);
             return true;
-        } catch (Exception e){
+        } else {
             return false;
         }
     }

@@ -59,31 +59,30 @@ public class ProductController {
 
     @PutMapping("/{idProduct}/stock")
     public ResponseEntity<Boolean> updateStock(@RequestBody ProductModel product, @PathVariable(name = "idProduct") Integer idProduct){
-        try{
-            productService.updateStock(product, idProduct);
+        boolean update = productService.updateStock(product, idProduct);
+        if (update){
             return new ResponseEntity<>(true,HttpStatus.OK);
-        } catch (Exception e){
+        } else {
             return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         }
-
     }
 
     @PutMapping("/{idProduct}/price")
     public ResponseEntity<Boolean> updatePrice(@RequestBody ProductModel product, @PathVariable(name = "idProduct") Integer idProduct){
-        try {
-            productService.updatePrice(product, idProduct);
+        boolean update = productService.updatePrice(product, idProduct);
+        if (update){
             return new ResponseEntity<>(true,HttpStatus.OK);
-        } catch (Exception e){
+        } else {
             return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/buy")
     public ResponseEntity<Boolean>  buyProducts(@RequestBody ArrayList<ProductModel> products){
-        try{
-            productService.buyProducts(products);
+        boolean buy = productService.buyProducts(products);
+        if (buy){
             return new ResponseEntity<>(true,HttpStatus.OK);
-        } catch (Exception e){
+        } else {
             return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         }
     }
@@ -100,10 +99,10 @@ public class ProductController {
 
     @DeleteMapping("/{idProduct}")
     public ResponseEntity<Boolean> delete(@PathVariable("idProduct") Integer idProduct){
-        try{
-            productService.delete(idProduct);
+        boolean delete = productService.delete(idProduct);
+        if (delete){
             return new ResponseEntity<>(true,HttpStatus.OK);
-        } catch (Exception e){
+        } else {
             return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         }
     }
