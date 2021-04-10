@@ -22,17 +22,22 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public void update(CategoryModel category, Integer idCategory){
+    public boolean update(CategoryModel category, Integer idCategory){
         Optional<CategoryModel> preCategory = categoryRepository.findByIdCategory(idCategory);
-        preCategory.get().setName(category.getName());
-        categoryRepository.save(preCategory.get());
+        if (preCategory.isPresent()){
+            preCategory.get().setName(category.getName());
+            categoryRepository.save(preCategory.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean delete (Integer idCategory){
-        try{
+        if (categoryRepository.findById(idCategory).isPresent()) {
             categoryRepository.deleteById(idCategory);
             return true;
-        } catch (Exception e) {
+        } else {
             return false;
         }
     }

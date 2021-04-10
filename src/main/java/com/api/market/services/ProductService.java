@@ -37,15 +37,19 @@ public class ProductService {
     }
 
     public void updateStock (ProductModel product, Integer idProduct){
-        Optional<ProductModel> preProduct = productRepository.getByIdProduct(idProduct);
-        preProduct.get().setStock(product.getStock());
-        productRepository.save(preProduct.get());
+        if (product.getStock() > 0) {
+            Optional<ProductModel> preProduct = productRepository.getByIdProduct(idProduct);
+            preProduct.get().setStock(product.getStock());
+            productRepository.save(preProduct.get());
+        }
     }
 
     public void updatePrice (ProductModel product, Integer idProduct){
-        Optional<ProductModel> preProduct = productRepository.getByIdProduct(idProduct);
-        preProduct.get().setPrice(product.getPrice());
-        productRepository.save(preProduct.get());
+        if (product.getPrice() > 0) {
+            Optional<ProductModel> preProduct = productRepository.getByIdProduct(idProduct);
+            preProduct.get().setPrice(product.getPrice());
+            productRepository.save(preProduct.get());
+        }
     }
 
     public void buyProducts(ArrayList<ProductModel> products){

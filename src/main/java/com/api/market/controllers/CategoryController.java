@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -25,10 +24,10 @@ public class CategoryController {
 
     @PutMapping("/{idCategory}")
     public ResponseEntity<Boolean> update(@RequestBody CategoryModel category, @PathVariable("idCategory") Integer idCategory){
-        try{
-            categoryService.update(category,idCategory);
+        boolean update = categoryService.update(category,idCategory);
+        if (update){
             return new ResponseEntity<>(true,HttpStatus.OK);
-        } catch (Exception e){
+        } else {
             return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         }
     }
@@ -45,10 +44,10 @@ public class CategoryController {
 
     @DeleteMapping("/{idCategory}")
     public ResponseEntity<Boolean> delete(@PathVariable("idCategory") Integer idCategory){
-        try{
-            categoryService.delete(idCategory);
+        boolean delete = categoryService.delete(idCategory);
+        if (delete){
             return new ResponseEntity<>(true,HttpStatus.OK);
-        } catch (Exception e){
+        } else {
             return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         }
     }
